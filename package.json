@@ -1,0 +1,36 @@
+{
+  "name": "jquery-redux-test",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack serve --open",
+    "lint": "standard --fix"
+  },
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
+    "eslint": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-webpack-plugin": "^3.1.1",
+    "html-webpack-plugin": "^5.5.0",
+    "sass": "^1.44.0",
+    "sass-loader": "^12.3.0",
+    "semistandard": "^16.0.1",
+    "standard": "^16.0.4",
+    "standardx": "^7.0.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-middleware": "^5.2.2"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "redux": "^4.1.2"
+  }
+}
