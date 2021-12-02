@@ -1,12 +1,15 @@
 const path = require('path')
+
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash:8].js',
+    chunkFilename: '[id].[contenthash:8].js',
     clean: true,
     publicPath: '/'
   },
@@ -17,15 +20,14 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Output Management'
+    }),
+    new CleanWebpackPlugin({
+      protectWebpackAssets: false,
+      cleanAfterEveryBuildPatterns: ['*.LICENSE.txt']
     })
   ],
   module: {
     rules: [
-      { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
-      {
-        test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader']
-      },
       {
         test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
@@ -41,9 +43,25 @@ module.exports = {
     ]
   },
   optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        format: {
+          comments: false
+        }
+      },
+      extractComments: false
+    })],
     splitChunks: {
       chunks: 'all',
-      name: false
+      name: false,
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          enforce: true
+        }
+      }
     }
   }
 }
