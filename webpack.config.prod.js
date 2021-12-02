@@ -1,6 +1,9 @@
 const path = require('path')
+
 const { merge } = require('webpack-merge')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const common = require('./webpack.common.js')
 
@@ -14,6 +17,10 @@ module.exports = merge(common, {
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'css/style.css'
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      openAnalyzer: false
     })
   ],
   module: {
@@ -28,5 +35,27 @@ module.exports = merge(common, {
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader']
       }
     ]
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        format: {
+          comments: false
+        }
+      },
+      extractComments: false
+    })],
+    splitChunks: {
+      chunks: 'all',
+      name: false,
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          enforce: true
+        }
+      }
+    }
   }
 })

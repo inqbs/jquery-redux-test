@@ -1,11 +1,13 @@
 const path = require('path')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    todo: './src/todo.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash:8].js',
@@ -41,27 +43,5 @@ module.exports = {
       { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' },
       { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource' }
     ]
-  },
-  optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin({
-      terserOptions: {
-        format: {
-          comments: false
-        }
-      },
-      extractComments: false
-    })],
-    splitChunks: {
-      chunks: 'all',
-      name: false,
-      cacheGroups: {
-        vendor: {
-          chunks: 'initial',
-          name: 'vendor',
-          enforce: true
-        }
-      }
-    }
   }
 }
